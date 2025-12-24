@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>服务详情 - TechSolutions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Noto Sans SC', sans-serif; 
+            background-color: #1a1d29;
+            color: #e5e7eb;
+        }
+        .service-detail-card {
+            background: rgba(36, 41, 56, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            transition: all 0.3s ease;
+        }
+        .service-detail-card:hover {
+            border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.1);
+        }
+        .price-table {
+            background: rgba(36, 41, 56, 0.9);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #10b981 100%);
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+        }
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #3b82f6;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #3b82f6, #10b981);
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .process-step {
+            position: relative;
+        }
+        .process-step::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -50%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #3b82f6, #10b981);
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+        .process-step:last-child::before {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-gray-900/80 backdrop-blur-md border-b border-gray-700/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">
+                        TechSolutions
+                    </h1>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="index.html" class="nav-link text-gray-300 hover:text-blue-400 px-3 py-2 text-sm font-medium">首页</a>
+                        <a href="services.html" class="nav-link text-white hover:text-blue-400 px-3 py-2 text-sm font-medium">服务</a>
+                        <a href="about.html" class="nav-link text-gray-300 hover:text-blue-400 px-3 py-2 text-sm font-medium">关于我们</a>
+                        <a href="contact.html" class="nav-link text-gray-300 hover:text-blue-400 px-3 py-2 text-sm font-medium">联系我们</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-400 hover:text-white">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="md:hidden hidden bg-gray-800">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="index.html" class="text-gray-300 hover:text-white block px-3 py-2 text-base font-medium">首页</a>
+                <a href="services.html" class="text-white block px-3 py-2 text-base font-medium">服务</a>
+                <a href="about.html" class="text-gray-300 hover:text-white block px-3 py-2 text-base font-medium">关于我们</a>
+                <a href="contact.html" class="text-gray-300 hover:text-white block px-3 py-2 text-base font-medium">联系我们</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-24 pb-16 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center fade-in">
+                <h2 class="text-5xl font-bold text-white mb-6">
+                    专业IT外包服务
+                </h2>
+                <p class="text-xl text-gray-400 max-w-3xl mx-auto">
+                    为您的企业提供全方位的IT技术支持，从网站建设到服务器托管，从网络运维到安全防护，我们致力于成为您最可靠的技术合作伙伴。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Service Categories -->
+    <section class="py-20 bg-gray-900/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Website Development -->
+            <div class="service-detail-card rounded-2xl p-8 mb-12 fade-in">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <div class="flex items-center mb-6">
+                            <div class="w-16 h-16 bg-blue-500/20 rounded-xl flex items-center justify-center mr-4">
+                                <img src="resources/website-icon.png" alt="网站建设" class="w-10 h-10">
+                            </div>
+                            <h3 class="text-3xl font-bold text-white">网站建设</h3>
+                        </div>
+                        <p class="text-gray-400 text-lg mb-6">
+                            专业的企业网站设计与开发服务，采用最新的前端技术和设计理念，为您打造独具特色的企业门户网站。我们提供从需求分析、UI设计到开发部署的全流程服务。
+                        </p>
+                        <div class="space-y-3 mb-8">
+                            <div class="flex items-center text-gray-300">
+                                <svg class="w-5 h-5 text-green-400 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                响应式设计，完美适配各种设备
+                            </div>
+                            <div class="flex items-center text-gray-300">
+                                <svg class="w-5 h-5 text-green-400 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                SEO优化，提升搜索引擎排名
+                            </div>
+                            <div class="flex items-center text-gray-300">
+                                <svg class="w-5 h-5 text-green-400 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                内容管理系统，轻松更新内容
+                            </div>
+                            <div class="flex items-center text-gray-300">
+                                <svg class="w-5 h-5 text-green-400 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                多语言支持，拓展国际市场
+                            </div>
+                        </div>
+                        <button class="btn-primary px-8 py-3 rounded-lg text-white font-semibold">
+                            了解详情
+                        </button>
+                    </div>
+                    <div>
+                        <div class="price-table rounded-xl p-6">
+                            <h4 class="text-xl font-semibold text-white mb-6">价格套餐</h4>
+                            <div class="space-y-4">
+                                <div class="border border-gray-600 rounded-lg p-4">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="text-white font-semibold">基础版</span>
+                                        <span class="text-2xl font-bold text-blue-400">¥8,000</span>
+                                    </div>
+                                    <p class="text-gray-400 text-sm mb-3">适合小型企业展示型网站</p>
+                                    <ul class="text-sm text-gray-300 space-y-1">
+                                        <li>• 5-10个页面</li>
+                                        <li>• 响应式设计</li>
+                                        <li>• 基础SEO优化</li>
+                                        <li>• 1年技术支持</li>
+                                    </ul>
+                                </div>
+                                <div class="border-2 border-blue-400 rounded-lg p-4 bg-blue-500/10">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="text-white font-semibold">标准版</span>
+                                        <span class="text-2xl font-bold text-blue-400">¥15,000</span>
+                                    </div>
+                                    <p class="text-gray-400 text-sm mb-3">适合中型企业功能型网站</p>
+                                    <ul class="text-sm text-gray-300 space-y-1">
+                                        <li>• 10-20个页面</li>
+                                        <li>• 内容管理系统</li>
+                                        <li>• 高级SEO优化</li>
+                                        <li>• 多语言支持</li>
+                                    </ul>
+                                </div>
+                                <div class="border border-gray-600 rounded-lg p-4">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="text-white font-semibold">定制版</span>
+                                        <span class="text-2xl font-bold text-blue-400">¥25,000+</span>
+                                    </div>
+                                    <p class="text-gray-400 text-sm mb-3">大型企业复杂功能需求</p>
+                                    <ul class="text-sm text-gray-300 space-y-1">
+                                        <li>• 无限页面</li>
+                                        <li>• 定制功能开发</li>
+                                        <li>• 电商系统集成</li>
+                                        <li>• 专属技术顾问</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Server Hosting -->
+            <div class="service-detail-card rounded-2xl p-8 mb-12 fade-in">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div class="order-2 lg:order-1">
+                        <div class="price-table rounded-xl p-6">
+                            <h4 class="text-xl font-semibold text-white mb-6">服务器配置</h4>
+                            <div class="space-y-4">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="bg-gray-700/50 rounded-lg p-4 text-center">
+                                        <div class="text-2xl font-bold text-green-400 mb-2">4-32核</div>
+                                        <div class="text-gray-400 text-sm">CPU配置</div>
+                                    </div>
+                                    <div class="bg-gray-700/50 rounded-lg p-4 text-center">
+                                        <div class="text-2xl font-bold text-blue-400 mb-2">8-64GB</div>
+                                        <div class="text-gray-400 text-sm">内存容量</div>
+                                    </div>
+                                    <div class="bg-gray-700/50 rounded-lg p-4 text-center">
+                                        <div class="text-2xl font-bold text-purple-400 mb-2">500GB-5TB</div>
+                                        <div class="text-gray-400 text-sm">存储空间</div>
+                                    </div>
+                                    <div class="bg-gray-700/50 rounded-lg p-4 text-center">
+                                        <div class="text-2xl font-bold text-yellow-400 mb-2">10Mbps-1Gbps</div>
+                                        <div class="text-gray-400 text-sm">网络带宽</div>
+                                    </div>
+                                </div>
+                                <div class="border-t border-gray-600 pt-4">
+                                    <div class="flex justify-between items-center mb-4">
+                                        <span class="text-white font-semibold">月付价格</span>
+                                        <span class="text-3xl font-bold text-green-400">¥500-5000</span>
+                                    </div>
+                                    <button class="w-full btn-primary px-6 py-3 rounded-lg text-white font-semibold">
+                                        立即租用
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-1 lg:order-2">
+                        <div class="flex items-center mb-6">
+                            <div class="w-16 h-16 bg-green-500/20 rounded-xl flex items-center justify-center mr-4">
+                                <img src="resources/server-icon.png" alt="服务器出租" class="w-10 h-10">
+                            </div>
+                            <h3 class="text-3xl font-bold text-white">服务器出租</h3>
+                        </div>
+                        <p class="text-gray-400 text-lg mb-6">
+                            提供高性能服务器托管服务，包括物理服务器租用、机柜托管、带宽租赁等服务。我们的数据中心采用国际标准建设，确保您的服务器安全稳定运行。
+                        </p>
+                        <div class="space-y-3 mb-8">
+                            <div class="flex items-center text-gray-300">
+                                <svg class="w-5 h-5 text-green-400 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                99.9%在线时间保证
+                            </div>
+                            <div class="flex items-center text-gray-300">
+                                <svg class="w-5 h-5 text-green-400 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                24小时技术监控支持
+                            </div>
+                            <div class="flex items-center text-gray-300">
+                                <svg class="w-5 h-5 text-green-400 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                多线路BGP网络接入
+                            </div>
+                            <div class="flex items-center text-gray-300">
+                                <svg class="w-5 h-5 text-green-400 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                灵活的硬件配置方案
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VPS Hosting -->
+            <div class="service-detail-card rounded-2xl p-8 mb-12 fade-in">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <div class="flex items-center mb-6">
+                            <div class="w-16 h-16 bg-purple-500/20 rounded-xl flex items-center justify-center mr-4">
+                                <img src="resources/vps-icon.png" alt="VPS服务" class="w-10 h-10">
+                            </div>
+                            <h3 class="text-3xl font-bold text-white">VPS租用</h3>
+                        </div>
+                        <p class="text-gray-400 text-lg mb-6">
+                            提供灵活可扩展的虚拟专用服务器租用服务，适用于中小型企业和个人开发者。支持多种操作系统，即时开通，按需付费，性价比极高。
+                        </p>
+                        <div class="space-y-3 mb-8">
+                            <div class="flex items-center text-gray-300">
+                                <svg class="w-5 h-5 text-green-400 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                即时开通，无需等待
+                            </div>
+                            <div class="flex items-center text-gray-300">
+                                <svg class="w-5 h-5 text-green-400 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                弹性资源配置
+                            </div>
+                            <div class="flex items-center text-gray-300">
+                                <svg class="w-5 h-5 text-green-400 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                完整root权限控制
+                            </div>
+                            <div class="flex items-center text-gray-300">
+                                <svg class="w-5 h-5 text-green-400 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                按小时计费，灵活付费
+                            </div>
+                        </div>
+                        <button class="btn-primary px-8 py-3 rounded-lg text-white font-semibold">
+                            查看套餐
+                        </button>
+                    </div>
+                    <div>
+                        <div class="price-table rounded-xl p-6">
+                            <h4 class="text-xl font-semibold text-white mb-6">VPS套餐</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="border border-gray-600 rounded-lg p-4">
+                                    <div class="text-center mb-4">
+                                        <div class="text-2xl font-bold text-purple-400 mb-2">基础版</div>
+                                        <div class="text-3xl font-bold text-white">¥100<span class="text-sm text-gray-400">/月</span></div>
+                                    </div>
+                                    <ul class="text-sm text-gray-300 space-y-2">
+                                        <li>• 1 vCPU</li>
+                                        <li>• 1GB 内存</li>
+                                        <li>• 20GB SSD</li>
+                                        <li>• 1TB 流量</li>
+                                    </ul>
+                                </div>
+                                <div class="border-2 border-purple-400 rounded-lg p-4 bg-purple-500/10">
+                                    <div class="text-center mb-4">
+                                        <div class="text-2xl font-bold text-purple-400 mb-2">标准版</div>
+                                        <div class="text-3xl font-bold text-white">¥200<span class="text-sm text-gray-400">/月</span></div>
+                                    </div>
+                                    <ul class="text-sm text-gray-300 space-y-2">
+                                        <li>• 2 vCPU</li>
+                                        <li>• 2GB 内存</li>
+                                        <li>• 40GB SSD</li>
+                                        <li>• 2TB 流量</li>
+                                    </ul>
+                                </div>
+                                <div class="border border-gray-600 rounded-lg p-4">
+                                    <div class="text-center mb-4">
+                                        <div class="text-2xl font-bold text-purple-400 mb-2">专业版</div>
+                                        <div class="text-3xl font-bold text-white">¥400<span class="text-sm text-gray-400">/月</span></div>
+                                    </div>
+                                    <ul class="text-sm text-gray-300 space-y-2">
+                                        <li>• 4 vCPU</li>
+                                        <li>• 4GB 内存</li>
+                                        <li>• 80GB SSD</li>
+                                        <li>• 4TB 流量</li>
+                                    </ul>
+                                </div>
+                                <div class="border border-gray-600 rounded-lg p-4">
+                                    <div class="text-center mb-4">
+                                        <div class="text-2xl font-bold text-purple-400 mb-2">企业版</div>
+                                        <div class="text-3xl font-bold text-white">¥800<span class="text-sm text-gray-400">/月</span></div>
+                                    </div>
+                                    <ul class="text-sm text-gray-300 space-y-2">
+                                        <li>• 8 vCPU</li>
+                                        <li>• 8GB 内存</li>
+                                        <li>• 160GB SSD</li>
+                                        <li>• 8TB 流量</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Other Services -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Enterprise Email -->
+                <div class="service-detail-card rounded-2xl p-8 fade-in">
+                    <div class="w-16 h-16 bg-yellow-500/20 rounded-xl flex items-center justify-center mb-6">
+                        <img src="resources/email-icon.png" alt="企业邮箱" class="w-10 h-10">
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4">企业邮箱</h3>
+                    <p class="text-gray-400 mb-6">安全专业的企业邮箱解决方案，支持多设备同步，强大的反垃圾邮件功能，提升企业形象。</p>
+                    <div class="space-y-2 mb-6">
+                        <div class="text-sm text-gray-300">• 5GB-无限存储空间</div>
+                        <div class="text-sm text-gray-300">• 反垃圾邮件保护</div>
+                        <div class="text-sm text-gray-300">• 多设备同步支持</div>
+                        <div class="text-sm text-gray-300">• 企业域名定制</div>
+                    </div>
+                    <div class="text-2xl font-bold text-yellow-400 mb-4">¥50/用户/年起</div>
+                    <button class="w-full btn-primary px-6 py-3 rounded-lg text-white font-semibold">
+                        立即开通
+                    </button>
+                </div>
+
+                <!-- Network Maintenance -->
+                <div class="service-detail-card rounded-2xl p-8 fade-in">
+                    <div class="w-16 h-16 bg-red-500/20 rounded-xl flex items-center justify-center mb-6">
+                        <img src="resources/maintenance-icon.png" alt="网络运维" class="w-10 h-10">
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4">网络运维</h3>
+                    <p class="text-gray-400 mb-6">专业网络运维团队，7x24小时技术支持，确保您的IT系统稳定运行，让您专注于核心业务。</p>
+                    <div class="space-y-2 mb-6">
+                        <div class="text-sm text-gray-300">• 7x24小时监控</div>
+                        <div class="text-sm text-gray-300">• 快速故障响应</div>
+                        <div class="text-sm text-gray-300">• 定期系统巡检</div>
+                        <div class="text-sm text-gray-300">• 专业技术团队</div>
+                    </div>
+                    <div class="text-2xl font-bold text-red-400 mb-4">¥2,000/月起</div>
+                    <button class="w-full btn-primary px-6 py-3 rounded-lg text-white font-semibold">
+                        了解详情
+                    </button>
+                </div>
+
+                <!-- Security Monitoring -->
+                <div class="service-detail-card rounded-2xl p-8 fade-in">
+                    <div class="w-16 h-16 bg-indigo-500/20 rounded-xl flex items-center justify-center mb-6">
+                        <img src="resources/security-icon.png" alt="监控安防" class="w-10 h-10">
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4">监控安防</h3>
+                    <p class="text-gray-400 mb-6">全方位网络监控和安防解决方案，实时预警，智能分析，保障企业数据和资产安全。</p>
+                    <div class="space-y-2 mb-6">
+                        <div class="text-sm text-gray-300">• 24小时实时监控</div>
+                        <div class="text-sm text-gray-300">• 智能视频分析</div>
+                        <div class="text-sm text-gray-300">• 云端数据备份</div>
+                        <div class="text-sm text-gray-300">• 移动端远程查看</div>
+                    </div>
+                    <div class="text-2xl font-bold text-indigo-400 mb-4">¥3,000起</div>
+                    <button class="w-full btn-primary px-6 py-3 rounded-lg text-white font-semibold">
+                        立即咨询
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Service Process -->
+    <section class="py-20 bg-gray-800/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in">
+                <h3 class="text-4xl font-bold text-white mb-4">服务流程</h3>
+                <p class="text-xl text-gray-400">标准化的服务流程，确保项目高质量交付</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="process-step text-center fade-in">
+                    <div class="w-20 h-20 bg-gradient-to-r from-blue-500 to-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-2xl font-bold text-white">1</span>
+                    </div>
+                    <h4 class="text-xl font-semibold text-white mb-4">需求分析</h4>
+                    <p class="text-gray-400">深入了解客户需求，制定个性化解决方案</p>
+                </div>
+                
+                <div class="process-step text-center fade-in">
+                    <div class="w-20 h-20 bg-gradient-to-r from-green-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-2xl font-bold text-white">2</span>
+                    </div>
+                    <h4 class="text-xl font-semibold text-white mb-4">方案设计</h4>
+                    <p class="text-gray-400">专业技术团队设计最优技术方案</p>
+                </div>
+                
+                <div class="process-step text-center fade-in">
+                    <div class="w-20 h-20 bg-gradient-to-r from-purple-500 to-yellow-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-2xl font-bold text-white">3</span>
+                    </div>
+                    <h4 class="text-xl font-semibold text-white mb-4">实施部署</h4>
+                    <p class="text-gray-400">严格按照项目计划执行，确保按时交付</p>
+                </div>
+                
+                <div class="process-step text-center fade-in">
+                    <div class="w-20 h-20 bg-gradient-to-r from-yellow-500 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-2xl font-bold text-white">4</span>
+                    </div>
+                    <h4 class="text-xl font-semibold text-white mb-4">运维支持</h4>
+                    <p class="text-gray-400">提供持续的技术支持和维护服务</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-gradient-to-r from-blue-600 to-green-600">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center fade-in">
+            <h3 class="text-4xl font-bold text-white mb-6">准备开始您的IT项目？</h3>
+            <p class="text-xl text-blue-100 mb-8">
+                联系我们的专业团队，获取免费的技术咨询和项目报价
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button class="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors">
+                    立即咨询
+                </button>
+                <a href="contact.html" class="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-blue-600 transition-colors">
+                    联系我们
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 border-t border-gray-800 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-3xl font-bold bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent mb-4">
+                    TechSolutions
+                </h1>
+                <p class="text-gray-400 mb-6">专业IT外包服务提供商</p>
+                <div class="flex justify-center space-x-8 mb-8">
+                    <a href="index.html" class="text-gray-400 hover:text-white transition-colors">首页</a>
+                    <a href="services.html" class="text-white transition-colors">服务</a>
+                    <a href="about.html" class="text-gray-400 hover:text-white transition-colors">关于我们</a>
+                    <a href="contact.html" class="text-gray-400 hover:text-white transition-colors">联系我们</a>
+                </div>
+                <div class="border-t border-gray-800 pt-8">
+                    <p class="text-gray-500 text-sm">© 2025 TechSolutions. 保留所有权利。</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        anime({
+                            targets: entry.target,
+                            opacity: [0, 1],
+                            translateY: [30, 0],
+                            duration: 800,
+                            easing: 'easeOutQuart',
+                            delay: anime.stagger(100)
+                        });
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            fadeElements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                observer.observe(el);
+            });
+
+            // Mobile menu
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Form submission
+            document.querySelectorAll('button').forEach(button => {
+                if (button.textContent.includes('了解详情') || button.textContent.includes('立即') || button.textContent.includes('查看') || button.textContent.includes('开通') || button.textContent.includes('咨询')) {
+                    button.addEventListener('click', function() {
+                        const originalText = this.textContent;
+                        this.textContent = '跳转中...';
+                        setTimeout(() => {
+                            alert('功能开发中，敬请期待！');
+                            this.textContent = originalText;
+                        }, 1000);
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
